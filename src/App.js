@@ -3,7 +3,7 @@ import Route from './routes/index'
 import DocumentTitle from 'react-document-title'
 import { Layout, notification, Icon } from 'antd';
 import SiderCustom from './components/SiderCustom';
-import './App.css';
+
 
 class App extends Component {
   state = {
