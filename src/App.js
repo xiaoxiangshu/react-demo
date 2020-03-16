@@ -3,7 +3,7 @@ import Route from './routes/index'
 import DocumentTitle from 'react-document-title'
 import { Layout, notification, Icon } from 'antd';
 import SiderCustom from './components/SiderCustom';
-
+import HeaderCustom from './components/HeaderCustom';
 
 class App extends Component {
   state = {
@@ -15,10 +15,12 @@ class App extends Component {
     const { auth = { data: {} }, responsive = { data: {} } } = this.props;
     return (
       <DocumentTitle title={title}>
-        <Layout style={{flexDirection: 'column'}}>
+        <Layout>
           <SiderCustom/>
-          <Layout>
-            <Route />
+          <Layout style={{flexDirection: 'column'}}>
+            <HeaderCustom>
+              <Route />
+            </HeaderCustom>
           </Layout>
         </Layout>
       </DocumentTitle>

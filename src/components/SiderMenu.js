@@ -45,15 +45,19 @@ const renderSubMenu = item => (
 
 export default ({ menus, ...props}) => {
   const [dragItems, setDragItems] = useState(menus);
-  console.log(33333, dragItems, setDragItems)
-  const item = {
-    key: '/app/dashboard/index', title: '首页', icon: 'mobile', component: 'Dashboard'
-  }
+
   return (
-    <Menu 
-      theme="dark"
-    >
-      {renderMenuItem(item)}
-    </Menu>
+    <div>
+      {dragItems.map((item, index) => (
+          <Menu 
+            theme="dark"
+            key={index}
+            {...props}
+          >
+            {item.subs ? renderSubMenu(item) : renderMenuItem(item)}
+          </Menu>
+        ))
+      }
+    </div>
   )
 }

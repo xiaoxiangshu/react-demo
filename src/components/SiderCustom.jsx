@@ -14,9 +14,8 @@ class SiderCustom extends Component {
       <Sider>
         <SiderMenu 
           menus={routes.menus}
-          
+          mode="inline"
           // onClick={this.menuClick}
-          // mode="inline"
           // selectedKeys={[selectedKey]}
           // openKeys={firstHide ? null : [openKey]}
           // onOpenChange={this.openMenu}
