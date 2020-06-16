@@ -1,9 +1,11 @@
 import React, { Component} from 'react';
 import Route from './routes/index'
 import DocumentTitle from 'react-document-title'
-import { Layout, notification, Icon } from 'antd';
+import { Layout } from 'antd';
 import SiderCustom from './components/SiderCustom';
 import HeaderCustom from './components/HeaderCustom';
+
+const { Content, Footer } = Layout
 
 class App extends Component {
   state = {
@@ -12,41 +14,24 @@ class App extends Component {
   };
   render() {
     const { title } = this.state;
-    const { auth = { data: {} }, responsive = { data: {} } } = this.props;
+    // const { auth = { data: {} }, responsive = { data: {} } } = this.props;
     return (
       <DocumentTitle title={title}>
         <Layout>
-          <SiderCustom/>
+          <SiderCustom collapsed={this.state.collapsed} />
           <Layout style={{flexDirection: 'column'}}>
-            <HeaderCustom>
-              <Route />
-            </HeaderCustom>
+            <HeaderCustom />
+              <Content>
+                <Route />
+              </Content>
+              <Footer style={{ textAlign: "center" }}>
+                @xiaoxiangshu Practice Demo
+              </Footer>
           </Layout>
         </Layout>
       </DocumentTitle>
     )
   }
 }
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <Route />
-//         {/* <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a> */}
-//       </header>
-//     </div>
-//   );
-// }
 
 export default App;

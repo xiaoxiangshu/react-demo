@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { 
-  BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom"
 import allComponents from '../components';
 import routesConfig from './config';
@@ -16,7 +14,7 @@ export default class CRouter extends Component {
     return (
       <Switch>
         {
-          Object.keys(routesConfig).map(key => {
+          Object.keys(routesConfig).map(key => 
             routesConfig[key].map(r => {
               const route = r => {
                 const Component = allComponents[r.component];
@@ -52,7 +50,7 @@ export default class CRouter extends Component {
               }
               return r.component ? route(r) : r.subs.map(r => route(r));
             })
-          })
+          )
         }
       </Switch>
     )

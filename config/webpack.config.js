@@ -359,6 +359,71 @@ module.exports = function(webpackEnv) {
                 name: 'static/media/[name].[hash:8].[ext]',
               },
             },
+            {
+              test: /\.(js|mjs)$/,
+              exclude: /@babel(?:\/|\\{1,2})runtime/,
+              loader: require.resolve('babel-loader'),
+              options: {
+                babelrc: false,
+                configFile: false,
+                compact: false,
+                presets: [
+                  [
+                    require.resolve('babel-preset-react-app/dependencies'),
+                    { helpers: true },
+                  ],
+                ],
+                cacheDirectory: true,
+                // See #6846 for context on why cacheCompression is disabled
+                cacheCompression: false,
+                
+                // Babel sourcemaps are needed for debugging into node_modules
+                // code.  Without the options below, debuggers like VSCode
+                // show incorrect code and set breakpoints on the wrong lines.
+                sourceMaps: shouldUseSourceMap,
+                inputSourceMap: shouldUseSourceMap,
+              },
+            },
+            {
+              test: /\.(css|less)$/,
+              exclude: /node_modules\.(css|less)/,
+              use: [
+                  require.resolve('style-loader'),
+                  {
+                      loader: require.resolve('css-loader'),
+                      options: {
+                        importLoaders: 1,
+                        modules: true,
+                      },
+                  },
+                  {
+                      loader: require.resolve('postcss-loader'),
+                      options: {
+                          ident: 'postcss',
+                          plugins: () => [
+                              require('postcss-flexbugs-fixes'),
+                              autoprefixer({
+                                  browsers: [
+                                      '>1%',
+                                      'last 4 versions',
+                                      'Firefox ESR',
+                                      'not ie < 9', // React doesn't support IE8 anyway
+                                  ],
+                                  flexbox: 'no-2009',
+                              }),
+                          ],
+                      },
+                  },
+                  {
+                    loader: require.resolve('less-loader'), // compiles Less to LESS
+                    options: {
+                      importLoaders: 2,
+                      modules: true,   
+                      getLocalIdent: getCSSModuleLocalIdent,
+                    },
+                  },
+              ],
+            },
             // Process application JS with Babel.
             // The preset includes JSX, Flow, TypeScript, and some ESnext features.
             {
@@ -395,31 +460,6 @@ module.exports = function(webpackEnv) {
             },
             // Process any JS outside of the app with Babel.
             // Unlike the application JS, we only compile the standard ES features.
-            {
-              test: /\.(js|mjs)$/,
-              exclude: /@babel(?:\/|\\{1,2})runtime/,
-              loader: require.resolve('babel-loader'),
-              options: {
-                babelrc: false,
-                configFile: false,
-                compact: false,
-                presets: [
-                  [
-                    require.resolve('babel-preset-react-app/dependencies'),
-                    { helpers: true },
-                  ],
-                ],
-                cacheDirectory: true,
-                // See #6846 for context on why cacheCompression is disabled
-                cacheCompression: false,
-                
-                // Babel sourcemaps are needed for debugging into node_modules
-                // code.  Without the options below, debuggers like VSCode
-                // show incorrect code and set breakpoints on the wrong lines.
-                sourceMaps: shouldUseSourceMap,
-                inputSourceMap: shouldUseSourceMap,
-              },
-            },
             // "postcss" loader applies autoprefixer to our CSS.
             // "css" loader resolves paths in CSS and adds assets as dependencies.
             // "style" loader turns CSS into JS modules that inject <style> tags.
